@@ -8,21 +8,26 @@ public class ChareacterController : MonoBehaviour
     float inputMovement;
     Rigidbody2D rigidBody2D;
     public bool isLookingRight;
-    public float jumpSpeed = 10;
+    public float jumpSpeed;
 
     //Arregle Jump
     BoxCollider2D boxCollider;
     public bool isOnFloor;
     public LayerMask surfaceLayer;
+    public float JumpingMax;
+    private float JumpingRestentes;
 
     //Transition Animations
     public bool isRunning;
     private Animator animator;
 
+    public bool isJumping;
+
     private void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
+        JumpingRestentes = JumpingMax;
         animator = GetComponent<Animator>();
     }
 
@@ -35,16 +40,16 @@ public class ChareacterController : MonoBehaviour
     }
 
     //Función para las fuerzas
-    public void ProcessingMovement()
+    void ProcessingMovement()
     {
         inputMovement = Input.GetAxis("Horizontal");
-        isRunning = inputMovement != 0 ? true : false;
+        isRunning = inputMovement != 0f ? true : false;
         animator.SetBool("isRunning", isRunning);
         rigidBody2D.velocity = new Vector2(speed * inputMovement, rigidBody2D.velocity.y);
         CharacterHOrientation(inputMovement);
     }
 
-    public bool ChekingFloor()
+    bool ChekingFloor()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(
                                     boxCollider.bounds.center, //Origen de la caja
@@ -58,15 +63,19 @@ public class ChareacterController : MonoBehaviour
         return raycastHit.collider != null;
     }
 
-    private void ProcessingJump()
+    void ProcessingJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isOnFloor)
+        if ( isOnFloor ) { JumpingRestentes = JumpingMax; }
+        if (Input.GetKeyDown(KeyCode.Space) && JumpingRestentes > 0)
         {
+            JumpingRestentes--;
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, 0f);
+            isJumping = inputMovement != 0f ? true : false;
             rigidBody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
     }
 
-    private void CharacterHOrientation(float inputMovement)
+    void CharacterHOrientation(float inputMovement)
     {
         if ((isLookingRight && inputMovement < 0) || (!isLookingRight && inputMovement > 0))
         {
