@@ -5,10 +5,10 @@ using UnityEngine;
 public class ChareacterController : MonoBehaviour
 {
     public float speed;
-    float inputMovement;
-    Rigidbody2D rigidBody2D;
+    public float inputMovement;
     public bool isLookingRight;
     public float jumpSpeed;
+    private Rigidbody2D rigidBody2D;
 
     //Arregle Jump
     BoxCollider2D boxCollider;
@@ -70,7 +70,6 @@ public class ChareacterController : MonoBehaviour
         {
             JumpingRestentes--;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, 0f);
-            isJumping = inputMovement != 0f ? true : false;
             rigidBody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
         }
     }
