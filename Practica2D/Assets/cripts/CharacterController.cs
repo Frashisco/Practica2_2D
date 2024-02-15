@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +22,7 @@ public class ChareacterController : MonoBehaviour
     public bool isRunning;
     private Animator animator;
 
-    public bool isJumping;
+    bool isGrounder = false;
 
     private void Start()
     {
@@ -37,6 +38,19 @@ public class ChareacterController : MonoBehaviour
         ProcessingMovement();
         isOnFloor = ChekingFloor();
         ProcessingJump();
+
+        if(Input.GetButtonDown("Jump") && isGrounder)
+        {
+            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, jumpSpeed);
+            isGrounder = false;
+            animator.SetBool("isJumping", !isGrounder);
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        rigidBody2D.velocity = new Vector2(inputMovement * speed, rigidBody2D.velocity.y);
+        animator.SetFloat("yVelocity", rigidBody2D.velocity.y);
     }
 
     //Función para las fuerzas
@@ -82,5 +96,11 @@ public class ChareacterController : MonoBehaviour
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
 
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        isGrounder = true;
     }
 }
