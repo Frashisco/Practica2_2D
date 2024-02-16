@@ -22,14 +22,12 @@ public class ChareacterController : MonoBehaviour
     public bool isRunning;
     private Animator animator;
 
-    bool isGrounder = false;
-
     private void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        JumpingRestentes = JumpingMax;
         animator = GetComponent<Animator>();
+        JumpingRestentes = JumpingMax;
     }
 
     // Update is called once per frame
@@ -38,20 +36,8 @@ public class ChareacterController : MonoBehaviour
         ProcessingMovement();
         isOnFloor = ChekingFloor();
         ProcessingJump();
-
-        if(Input.GetButtonDown("Jump") && isGrounder)
-        {
-            rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, jumpSpeed);
-            isGrounder = false;
-            animator.SetBool("isJumping", !isGrounder);
-        }
     }
 
-    private void FixedUpdate()
-    {
-        rigidBody2D.velocity = new Vector2(inputMovement * speed, rigidBody2D.velocity.y);
-        animator.SetFloat("yVelocity", rigidBody2D.velocity.y);
-    }
 
     //Función para las fuerzas
     void ProcessingMovement()
@@ -96,11 +82,5 @@ public class ChareacterController : MonoBehaviour
             transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
         }
 
-    }
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        isGrounder = true;
     }
 }
