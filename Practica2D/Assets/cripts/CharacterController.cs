@@ -65,9 +65,11 @@ public class ChareacterController : MonoBehaviour
 
     void ProcessingJump()
     {
+
         if ( isOnFloor ) { JumpingRestentes = JumpingMax; }
         if (Input.GetKeyDown(KeyCode.Space) && JumpingRestentes > 0)
         {
+            animator.SetBool("isJumping", !isOnFloor);
             JumpingRestentes--;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, 0f);
             rigidBody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
