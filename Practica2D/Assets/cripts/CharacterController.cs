@@ -39,7 +39,7 @@ public class ChareacterController : MonoBehaviour
     }
 
 
-    //Función para las fuerzas
+    //Funciï¿½n para las fuerzas
     void ProcessingMovement()
     {
         inputMovement = Input.GetAxis("Horizontal");
@@ -53,8 +53,8 @@ public class ChareacterController : MonoBehaviour
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(
                                     boxCollider.bounds.center, //Origen de la caja
-                                    new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y), //Tamaño, por defecto 1
-                                    0f, //Ángulo
+                                    new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y), //Tamaï¿½o, por defecto 1
+                                    0f, //ï¿½ngulo
                                     Vector2.down, //Direccion hacia la que va la caja
                                     0.2f, //Distancia a la que aparece la caja
                                     surfaceLayer//Layer mask
@@ -65,11 +65,11 @@ public class ChareacterController : MonoBehaviour
 
     void ProcessingJump()
     {
-
+        animator.SetBool("isJumping", !isOnFloor);
         if ( isOnFloor ) { JumpingRestentes = JumpingMax; }
         if (Input.GetKeyDown(KeyCode.Space) && JumpingRestentes > 0)
         {
-            animator.SetBool("isJumping", !isOnFloor);
+            
             JumpingRestentes--;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, 0f);
             rigidBody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
