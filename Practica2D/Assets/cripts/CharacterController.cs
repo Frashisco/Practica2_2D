@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 public class ChareacterController : MonoBehaviour
@@ -22,12 +23,17 @@ public class ChareacterController : MonoBehaviour
     public bool isRunning;
     private Animator animator;
 
+    //Sonido
+    private AudioSource audioSource;
+    public AudioClip jumpClip;
+
     private void Start()
     {
         rigidBody2D = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         JumpingRestentes = JumpingMax;
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -69,10 +75,10 @@ public class ChareacterController : MonoBehaviour
         if ( isOnFloor ) { JumpingRestentes = JumpingMax; }
         if (Input.GetKeyDown(KeyCode.Space) && JumpingRestentes > 0)
         {
-            
             JumpingRestentes--;
             rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, 0f);
             rigidBody2D.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            audioSource.PlayOneShot(jumpClip);
         }
     }
 
