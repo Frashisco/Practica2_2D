@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class hearts : MonoBehaviour
 {
+    public AudioClip sonidoObjeto;
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -13,6 +14,7 @@ public class hearts : MonoBehaviour
             if (vidaRecuperada)
             {
                 Destroy(this.gameObject);
+                AudioManager.Instance.ReproducirSonido(sonidoObjeto);
             }
         }
     }
