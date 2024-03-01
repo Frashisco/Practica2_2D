@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 public class ChareacterController : MonoBehaviour
@@ -16,7 +12,7 @@ public class ChareacterController : MonoBehaviour
     BoxCollider2D boxCollider;
     public bool isOnFloor;
     public LayerMask surfaceLayer;
-    public float JumpingMax;
+    private float JumpingMax = 1;
     private float JumpingRestentes;
 
     //Transition Animations

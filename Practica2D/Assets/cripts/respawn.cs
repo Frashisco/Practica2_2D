@@ -1,24 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class respawn : MonoBehaviour
 {
-    // Método para reiniciar el juego
-    public void Restart()
-    {
-        // Cargar la escena actual
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
+    public Transform respawnPoint; // Punto de respawn del jugador
 
     // Método para detectar colisiones
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Si el objeto que colisiona tiene la etiqueta "Player", reiniciar el juego
+        // Si el objeto que colisiona tiene la etiqueta "Player"
         if (collision.CompareTag("Player"))
         {
-            Restart();
+            // Mover al jugador al punto de respawn
+            collision.transform.position = respawnPoint.position;
+
+            // Restar una vida al jugador
+            GameManager.Instance.PerderVida();
         }
     }
 }
